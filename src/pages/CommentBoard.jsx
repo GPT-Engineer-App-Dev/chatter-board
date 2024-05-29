@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Button, Container, Input, Text, VStack, useToast } from '@chakra-ui/react';
 
 const CommentBoard = () => {
@@ -6,10 +6,20 @@ const CommentBoard = () => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
 
+  useEffect(() => {
+    console.log('Current comments:', comments);
+  }, [comments]);
+
   const handleAddComment = () => {
     try {
       if (newComment.trim() !== '') {
-        setComments([...comments, newComment]);
+        console.log('New comment to add:', newComment);
+        setComments((prevComments) => {
+          if (!Array.isArray(prevComments)) {
+            throw new Error('Comments state is not an array');
+          }
+          return [...prevComments, newComment];
+        });
         setNewComment('');
         console.log('Comment added:', newComment);
         toast({
