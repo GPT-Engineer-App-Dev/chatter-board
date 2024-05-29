@@ -7,7 +7,7 @@ function App() {
     <Router>
       <Routes>
         <Route exact path="/" element={<Index />} />
-      <Route path="/comments" element={<CommentBoard />} />
+        <Route path="/comments" element={<CommentBoard />} />
       </Routes>
     </Router>
   );
