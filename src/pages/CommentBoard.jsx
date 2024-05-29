@@ -11,18 +11,24 @@ const CommentBoard = () => {
       const storedComments = localStorage.getItem('comments');
       if (storedComments) {
         const parsedComments = JSON.parse(storedComments);
-        if (!Array.isArray(parsedComments)) {
-          throw new Error('Stored comments are not an array');
+        if (Array.isArray(parsedComments)) {
+          setComments(parsedComments);
+        } else {
+          console.error('Stored comments are not an array');
+          setComments([]);
         }
-        setComments(parsedComments);
       }
     } catch (error) {
       console.error('Error loading comments from localStorage:', error);
+      setComments([]);
     }
   }, []);
 
   useEffect(() => {
-    console.log('Current comments:', comments);
+    if (!Array.isArray(comments)) {
+      console.error('Comments state is not an array');
+      setComments([]);
+    }
   }, [comments]);
 
   useEffect(() => {
@@ -35,27 +41,26 @@ const CommentBoard = () => {
 
   const handleAddComment = () => {
     try {
-      if (newComment.trim() !== '') {
-        if (comments.includes(newComment)) {
-          throw new Error('Duplicate comment');
-        }
-        setComments((prevComments) => {
-          if (!Array.isArray(prevComments)) {
-            throw new Error('Comments state is not an array');
-          }
-          return [...prevComments, newComment];
-        });
-        setNewComment('');
-        toast({
-          title: 'Comment added.',
-          description: "Your comment has been added successfully.",
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-        });
-      } else {
+      if (newComment.trim() === '') {
         throw new Error('Comment cannot be empty');
       }
+      if (comments.includes(newComment)) {
+        throw new Error('Duplicate comment');
+      }
+      setComments((prevComments) => {
+        if (!Array.isArray(prevComments)) {
+          throw new Error('Comments state is not an array');
+        }
+        return [...prevComments, newComment];
+      });
+      setNewComment('');
+      toast({
+        title: 'Comment added.',
+        description: "Your comment has been added successfully.",
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
     } catch (error) {
       console.error('Error adding comment:', error);
       toast({
