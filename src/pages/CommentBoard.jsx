@@ -22,10 +22,6 @@ const CommentBoard = () => {
   }, []);
 
   useEffect(() => {
-    console.log('Current comments:', comments);
-  }, [comments]);
-
-  useEffect(() => {
     try {
       localStorage.setItem('comments', JSON.stringify(comments));
     } catch (error) {
