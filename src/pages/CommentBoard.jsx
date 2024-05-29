@@ -7,6 +7,14 @@ const CommentBoard = () => {
   const [newComment, setNewComment] = useState('');
 
   useEffect(() => {
+    const storedComments = localStorage.getItem('comments');
+    if (storedComments) {
+      setComments(JSON.parse(storedComments));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('comments', JSON.stringify(comments));
     console.log('Current comments:', comments);
   }, [comments]);
 
