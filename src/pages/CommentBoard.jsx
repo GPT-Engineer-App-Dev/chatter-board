@@ -1,14 +1,36 @@
 import React, { useState } from 'react';
-import { Box, Button, Container, Input, Text, VStack } from '@chakra-ui/react';
+import { Box, Button, Container, Input, Text, VStack, useToast } from '@chakra-ui/react';
 
 const CommentBoard = () => {
+  const toast = useToast();
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
 
   const handleAddComment = () => {
-    if (newComment.trim() !== '') {
-      setComments([...comments, newComment]);
-      setNewComment('');
+    try {
+      if (newComment.trim() !== '') {
+        setComments([...comments, newComment]);
+        setNewComment('');
+        console.log('Comment added:', newComment);
+        toast({
+          title: 'Comment added.',
+          description: "Your comment has been added successfully.",
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        });
+      } else {
+        throw new Error('Comment cannot be empty');
+      }
+    } catch (error) {
+      console.error('Error adding comment:', error);
+      toast({
+        title: 'Error',
+        description: error.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
 
