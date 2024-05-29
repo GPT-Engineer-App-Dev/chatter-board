@@ -45,9 +45,6 @@ const CommentBoard = () => {
         throw new Error('Duplicate comment');
       }
       setComments((prevComments) => {
-        if (!Array.isArray(prevComments)) {
-          throw new Error('Comments state is not an array');
-        }
         return [...prevComments, newComment];
       });
       setNewComment('');
