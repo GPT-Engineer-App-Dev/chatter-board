@@ -13,7 +13,9 @@ const CommentBoard = () => {
   const handleAddComment = () => {
     try {
       if (newComment.trim() !== '') {
-        console.log('New comment to add:', newComment);
+        if (comments.includes(newComment)) {
+          throw new Error('Duplicate comment');
+        }
         setComments((prevComments) => {
           if (!Array.isArray(prevComments)) {
             throw new Error('Comments state is not an array');
