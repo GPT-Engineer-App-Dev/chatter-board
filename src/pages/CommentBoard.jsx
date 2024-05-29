@@ -5,6 +5,7 @@ const CommentBoard = () => {
   const toast = useToast();
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     try {
@@ -21,6 +22,7 @@ const CommentBoard = () => {
     } catch (error) {
       console.error('Error loading comments from localStorage:', error);
       setComments([]);
+      setError(error);
     }
   }, []);
 
@@ -29,12 +31,19 @@ const CommentBoard = () => {
       localStorage.setItem('comments', JSON.stringify(comments));
     } catch (error) {
       console.error('Error saving comments to localStorage:', error);
+      setError(error);
     }
   }, [comments]);
 
   useEffect(() => {
     console.log('Current comments state:', comments);
   }, [comments]);
+
+  useEffect(() => {
+    if (error) {
+      console.error('Component error:', error);
+    }
+  }, [error]);
 
   const handleAddComment = () => {
     try {
@@ -62,6 +71,7 @@ const CommentBoard = () => {
         duration: 5000,
         isClosable: true,
       });
+      setError(error);
     }
   };
 
