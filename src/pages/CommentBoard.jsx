@@ -25,18 +25,15 @@ const CommentBoard = () => {
   }, []);
 
   useEffect(() => {
-    if (!Array.isArray(comments)) {
-      console.error('Comments state is not an array');
-      setComments([]);
-    }
-  }, [comments]);
-
-  useEffect(() => {
     try {
       localStorage.setItem('comments', JSON.stringify(comments));
     } catch (error) {
       console.error('Error saving comments to localStorage:', error);
     }
+  }, [comments]);
+
+  useEffect(() => {
+    console.log('Current comments state:', comments);
   }, [comments]);
 
   const handleAddComment = () => {
