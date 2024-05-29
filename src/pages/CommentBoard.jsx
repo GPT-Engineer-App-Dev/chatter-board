@@ -7,7 +7,18 @@ const CommentBoard = () => {
   const [newComment, setNewComment] = useState('');
 
   useEffect(() => {
+    const storedComments = localStorage.getItem('comments');
+    if (storedComments) {
+      setComments(JSON.parse(storedComments));
+    }
+  }, []);
+
+  useEffect(() => {
     console.log('Current comments:', comments);
+  }, [comments]);
+
+  useEffect(() => {
+    localStorage.setItem('comments', JSON.stringify(comments));
   }, [comments]);
 
   const handleAddComment = () => {
@@ -23,7 +34,7 @@ const CommentBoard = () => {
           return [...prevComments, newComment];
         });
         setNewComment('');
-        console.log('Comment added:', newComment);
+        
         toast({
           title: 'Comment added.',
           description: "Your comment has been added successfully.",
