@@ -7,11 +7,10 @@ const CommentBoard = () => {
   // Add a new state variable to store the new comment input
   const [newComment, setNewComment] = useState('');
 
-  // Implement a function to handle adding a new comment with a timestamp
+  // Implement a function to handle adding a new comment
   const handleAddComment = () => {
     if (newComment.trim() !== '') {
-      const timestamp = new Date().toLocaleString();
-      setComments([...comments, `${newComment} (Posted on: ${timestamp})`]);
+      setComments([...comments, newComment]);
       setNewComment('');
     }
   };
@@ -21,7 +20,6 @@ const CommentBoard = () => {
       <VStack spacing={4} width="100%">
         <Text fontSize="2xl">Public Comment Board</Text>
         <Box width="100%">
-          {/* Update the JSX to include an input field and a button for adding comments */}
           <Input
             placeholder="Write your comment here..."
             value={newComment}
@@ -31,7 +29,6 @@ const CommentBoard = () => {
             Add Comment
           </Button>
         </Box>
-        {/* Display the list of comments below the input field */}
         <VStack spacing={2} width="100%" alignItems="flex-start">
           {comments.map((comment, index) => (
             <Box key={index} p={4} bg="gray.100" borderRadius="md" width="100%">
