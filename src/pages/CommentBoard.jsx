@@ -7,9 +7,17 @@ const CommentBoard = () => {
   const [newComment, setNewComment] = useState('');
 
   useEffect(() => {
-    const storedComments = localStorage.getItem('comments');
-    if (storedComments) {
-      setComments(JSON.parse(storedComments));
+    try {
+      const storedComments = localStorage.getItem('comments');
+      if (storedComments) {
+        const parsedComments = JSON.parse(storedComments);
+        if (!Array.isArray(parsedComments)) {
+          throw new Error('Stored comments are not an array');
+        }
+        setComments(parsedComments);
+      }
+    } catch (error) {
+      console.error('Error loading comments from localStorage:', error);
     }
   }, []);
 
@@ -18,7 +26,11 @@ const CommentBoard = () => {
   }, [comments]);
 
   useEffect(() => {
-    localStorage.setItem('comments', JSON.stringify(comments));
+    try {
+      localStorage.setItem('comments', JSON.stringify(comments));
+    } catch (error) {
+      console.error('Error saving comments to localStorage:', error);
+    }
   }, [comments]);
 
   const handleAddComment = () => {
@@ -34,7 +46,6 @@ const CommentBoard = () => {
           return [...prevComments, newComment];
         });
         setNewComment('');
-        
         toast({
           title: 'Comment added.',
           description: "Your comment has been added successfully.",
