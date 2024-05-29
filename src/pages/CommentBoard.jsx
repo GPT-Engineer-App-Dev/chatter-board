@@ -7,10 +7,11 @@ const CommentBoard = () => {
   // Add a new state variable to store the new comment input
   const [newComment, setNewComment] = useState('');
 
-  // Implement a function to handle adding a new comment
+  // Implement a function to handle adding a new comment with a timestamp
   const handleAddComment = () => {
     if (newComment.trim() !== '') {
-      setComments([...comments, newComment]);
+      const timestamp = new Date().toLocaleString();
+      setComments([...comments, `${newComment} (Posted on: ${timestamp})`]);
       setNewComment('');
     }
   };
