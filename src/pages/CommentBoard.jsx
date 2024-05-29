@@ -2,12 +2,9 @@ import React, { useState } from 'react';
 import { Box, Button, Container, Input, Text, VStack } from '@chakra-ui/react';
 
 const CommentBoard = () => {
-  // Add a new state variable to store the list of comments
   const [comments, setComments] = useState([]);
-  // Add a new state variable to store the new comment input
   const [newComment, setNewComment] = useState('');
 
-  // Implement a function to handle adding a new comment
   const handleAddComment = () => {
     if (newComment.trim() !== '') {
       setComments([...comments, newComment]);
